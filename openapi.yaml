@@ -1,0 +1,103 @@
+openapi: 3.1.0
+info:
+  title: Burger Restaurant API
+  description: An API for managing burgers at a restaurant.
+  version: 1.0.0
+servers:
+  - url: https://example.com
+    description: The production server.
+paths:
+  /burgers:
+    post:
+      operationId: createBurger
+      summary: Create a new burger
+      description: Creates a new burger in the database.
+      requestBody:
+        description: The burger to create.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BurgerCreate"
+      responses:
+        "201":
+          description: The burger was created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/burgerSchema"
+  /burgers/{id}:
+    get:
+      operationId: getBurger
+      summary: Get a burger
+      description: Gets a burger from the database.
+      parameters:
+        - in: path
+          name: id
+          description: The unique identifier of the burger.
+          schema:
+            $ref: "#/components/schemas/BurgerId"
+          required: true
+      responses:
+        "200":
+          description: The burger was retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/burgerSchema"
+  /webhooks/burgers:
+    post:
+      operationId: createBurgerWebhook
+      summary: New burger webhook
+      description: A webhook that is called when a new burger is created.
+      requestBody:
+        description: The burger that was created.
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/burgerSchema"
+      responses:
+        "200":
+          description: The webhook was processed successfully.
+components:
+  schemas:
+    burgerSchema:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/BurgerId"
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: The name of the burger.
+          example: Veggie Burger
+        description:
+          type: string
+          maxLength: 255
+          description: The description of the burger.
+          example: A delicious bean burger with avocado.
+      required:
+        - id
+        - name
+    BurgerCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 50
+          description: The name of the burger.
+          example: Veggie Burger
+        description:
+          type: string
+          maxLength: 255
+          description: The description of the burger.
+          example: A delicious bean burger with avocado.
+      required:
+        - name
+      description: A burger to create.
+    BurgerId:
+      type: number
+      minimum: 1
+      description: The unique identifier of the burger.
+      example: 1

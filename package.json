@@ -1,0 +1,16 @@
+{
+  "name": "custom_api_doc",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  } ,
+  "dependencies": {
+    "yaml": "^2.6.0",
+    "zod": "^3.23.8",
+    "zod-openapi": "^3.2.0"
+  }
+}
